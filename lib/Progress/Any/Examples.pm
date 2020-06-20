@@ -15,7 +15,7 @@ See scripts included in this distribution.
 =head1 DESCRIPTION
 
 This distribution include the following scripts to demonstrate how to use
-L<Progres::Any>:
+L<Progress::Any>:
 
 # INSERT_EXECS_LIST
 
