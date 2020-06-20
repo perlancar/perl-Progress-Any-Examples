@@ -1,0 +1,58 @@
+#!perl
+
+use 5.010001;
+use strict;
+use warnings;
+
+use Progress::Any;
+use Progress::Any::Output 'TermProgressBarColor', freq=>0.1;
+use Time::HiRes qw(sleep);
+
+my $progress_x = Progress::Any->get_indicator(task => "x");
+my $progress_y = Progress::Any->get_indicator(task => "y");
+my $progress   = Progress::Any->get_indicator(task => "" , target=>0); # to say that we only have subtasks x and y and no target on
+
+my ($target_x, $target_y) = @ARGV;
+$progress_x->target($target_x) if $target_x;
+$progress_y->target($target_y) if $target_y;
+
+for (1.. $target_x // int(15*rand)+7) {
+    $progress_x->update(message => "Doing task x $_/".($target_x // "?"));
+    sleep 0.2;
+}
+$progress_x->finish(message => "Finished doing task x"); # optional
+sleep 2;
+
+for (1.. $target_y // int(15*rand)+7) {
+    $progress_y->update(message => "Doing task y $_/".($target_y // "?"));
+    sleep 0.2;
+}
+$progress_y->finish(message => "Finished doing task y"); # optional
+sleep 2;
+
+$progress->finish; # required to clean the progress bar
+
+# ABSTRACT: Two tasks, progress bar for the whole two tasks
+# PODNAME:
+
+=head1 SYNOPSIS
+
+ % progress-any-eg-progressbar-02-multiple-tasks-one-progressbar [target_x] [target_y]
+
+
+=head1 DESCRIPTION
+
+This example shows two progress indicators, one for task 'x' and another for
+task 'y'. We then use the terminal progress bar output, which by default shows
+the progress for the task '' (which includes the tasks 'x' and 'y').
+
+Unless the targets for both 'x' and 'y' are specified, the progress bar cannot
+show the percentage of completion. If percentage of completion for 'x' is
+unknown, or that for 'y' is unknown, then the percentage of completion for the
+whole two tasks (task '', the root task) is also unknown.
+
+When percentage of completion is unknown, the progress bar will show a running
+bar.
+
+Also note that to clean the progress bar, we need to call finish() on the root
+task.

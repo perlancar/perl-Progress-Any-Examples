@@ -1,0 +1,32 @@
+#!perl
+
+use 5.010001;
+use strict;
+use warnings;
+
+use Progress::Any '$progress';
+use Progress::Any::Output 'TermProgressBarColor', freq=>0.25;
+use Time::HiRes qw(sleep);
+
+my $target = $ARGV[0] // 10;
+$progress->target($target);
+for (1..$target) {
+    $progress->update(message => "Doing item $_/$target");
+    sleep 0.3;
+}
+$progress->finish;
+
+# ABSTRACT: A simple progress bar on the terminal
+# PODNAME:
+
+=head1 SYNOPSIS
+
+ % progress-any-eg-progressbar-01-simple [target=10]
+
+
+=head1 DESCRIPTION
+
+This example shows a simple progress bar on the terminal. The progress indicator
+is updated every 0.3 second, so we set output argument C<freq> to 0.25 to be
+able to reflect each update on the terminal. The default C<freq> value 0.5 would
+make the progress bar miss showing some updates.
