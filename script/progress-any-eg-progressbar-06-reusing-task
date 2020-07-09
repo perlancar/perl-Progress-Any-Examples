@@ -51,7 +51,7 @@ $progress->finish; # optional
 
 =head1 SYNOPSIS
 
- % progress-any-eg-progressbar-04-reusing-task [file_size1=10000] [file_size2=30000]
+ % progress-any-eg-progressbar-06-reusing-task [file_size1=10000] [file_size2=30000]
 
 =head1 DESCRIPTION
 
